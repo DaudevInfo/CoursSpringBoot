@@ -15,7 +15,7 @@ public class HelloControleur {
 
     @GetMapping
     public String direHello() {
-        String retour = helloServices.toString();
+        String retour = helloServices.salutations();
         System.out.println(retour);
         return retour ;
     }
