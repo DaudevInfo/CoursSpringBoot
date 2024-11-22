@@ -1,6 +1,6 @@
 package fr.diginamic.coursSpringBoot.hello.controlleurs;
 
-import fr.diginamic.coursSpringBoot.HelloServices;
+import fr.diginamic.coursSpringBoot.service.HelloServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +15,7 @@ public class HelloControleur {
 
     @GetMapping
     public String direHello() {
-        String retour = helloServices.salutations();
-        System.out.println(retour);
-        return retour ;
+       return helloServices.salutations();
     }
 
 

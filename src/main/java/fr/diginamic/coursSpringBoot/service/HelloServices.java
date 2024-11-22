@@ -1,4 +1,4 @@
-package fr.diginamic.coursSpringBoot;
+package fr.diginamic.coursSpringBoot.service;
 
 
 import org.springframework.stereotype.Component;
