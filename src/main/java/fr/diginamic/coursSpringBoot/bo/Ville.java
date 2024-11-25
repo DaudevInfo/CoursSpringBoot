@@ -1,11 +1,21 @@
 package fr.diginamic.coursSpringBoot.bo;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class Ville {
+
+    @NotNull
+    private int id;
+    @NotNull
+    @Size(min = 2)
     private String nom;
+    @Min(1)
     private int nbHabitant;
+    private static int compteurId = 0;
 
     public Ville() {
     }
@@ -13,7 +23,24 @@ public class Ville {
     public Ville(String nom, int nbHabitant) {
         this.nom = nom;
         this.nbHabitant = nbHabitant;
+        this.id = compteurId++;
+    }
 
+    /**
+     * Getter
+     * @return id
+     **/
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Setter
+     *
+     * @param : id
+     **/
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
