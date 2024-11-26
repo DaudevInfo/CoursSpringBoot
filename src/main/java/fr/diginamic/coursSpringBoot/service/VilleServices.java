@@ -2,6 +2,10 @@ package fr.diginamic.coursSpringBoot.service;
 
 
 import fr.diginamic.coursSpringBoot.bo.Ville;
+import fr.diginamic.coursSpringBoot.dao.VilleDao;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.TypedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,65 +14,58 @@ import java.util.List;
 @Service
 public class VilleServices {
 
-    List<Ville> villes = new ArrayList<Ville>();
 
-    public List<Ville> getVilles() {
-        villes.add(new Ville("Nice", 343000));
-        villes.add(new Ville("Carcassonne", 47800));
-        villes.add(new Ville("Narbonne", 53400));
-        villes.add(new Ville("Lyon", 484000));
-        villes.add(new Ville("Foix", 9700));
-        villes.add(new Ville("Pau", 77200));
-        villes.add(new Ville("Marseille", 850700));
-        villes.add(new Ville("Tarbes", 40600));
-        return villes;
+
+    @Autowired
+    VilleDao villeDao ;
+
+
+    @PostConstruct
+    public void init()
+    {
+        villeDao.insertVilles(new Ville("Nice", 343000));
+        villeDao.insertVilles(new Ville("Carcassonne", 47800));
+        villeDao.insertVilles(new Ville("Narbonne", 53400));
+        villeDao.insertVilles(new Ville("Lyon", 484000));
+        villeDao.insertVilles(new Ville("Foix", 9700));
+        villeDao.insertVilles(new Ville("Pau", 77200));
+        villeDao.insertVilles(new Ville("Marseille", 850700));
+        villeDao.insertVilles(new Ville("Tarbes", 40600));
 
     }
 
-    public Ville getVille(int id) {
-        for (Ville v : villes) {
-            if (v.getId() == id) {
-                return v;
-            }
+    public List<Ville> extractVilles () {
+        return villeDao.extractVilles();
+    }
+
+    public Ville extractVille(int id) {
+        return villeDao.extractVille(id);
+    }
+
+    public Ville extractVille(String nom) {
+        return villeDao.extractVille(nom);
+    }
+
+    public List<Ville> insertVille(Ville ville) {
+        villeDao.insertVilles(ville);
+        return extractVilles();
+    }
+
+    public List<Ville> modifierVille (int id, Ville ville) {
+        if (extractVille(id) != null) {
+            villeDao.mergeVilles(id, ville);
         }
-        return null;
+        return extractVilles();
     }
 
-    public boolean ajoutVille(Ville ville) {
-        for (Ville v : villes) {
-            if (v.getId() == ville.getId()) {
-                return false;
-            }
+    public List<Ville> supprimerVille(int id) {
+        Ville ville = extractVille(id);
+        if (ville  != null) {
+            villeDao.supprimerVilles(ville);
         }
-        villes.add(ville);
-        return true;
+        return extractVilles();
     }
 
-    public boolean modifierVille(Ville ville) {
-        for (Ville v : villes) {
-            if (v.getId() == ville.getId()) {
-                v.setNom(ville.getNom());
-                v.setNbHabitant(ville.getNbHabitant());
-                return true;
-            }
-        }
-        return false;
-    }
 
-    public boolean supprimerVille(Ville ville) {
-        for (Ville v : villes) {
-            if (v.getId() == ville.getId()) {
-                villes.remove(v);
-                return true;
-            }
-        }
-        return false;
-    }
 
-    public boolean controlerVille(Ville ville) {
-        if (ville.getId() >0 && ville.getNom() != null && ville.getNom().length() >2 && ville.getNbHabitant()>0 ) {
-            return true;
-        }
-        return false;
-    }
 }

@@ -3,6 +3,8 @@ package fr.diginamic.coursSpringBoot.hello.controlleurs;
 import fr.diginamic.coursSpringBoot.bo.Ville;
 import fr.diginamic.coursSpringBoot.service.VilleServices;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -15,59 +17,58 @@ import java.util.List;
 public class VilleControleur {
 
 
-    public VilleServices villeServices =  new VilleServices();
+    @Autowired
+    public VilleServices villeServices;
 
 
     @GetMapping("/liste")
     public List<Ville> afficherVilles() {
 
-        return villeServices.getVilles();
+        return villeServices.extractVilles();
     }
 
-    @GetMapping(path="{id}")
+    @GetMapping(path="/id/{id}")
     public Ville getVille(@PathVariable int id) {
-        Ville result = villeServices.getVille(id);
+        Ville result = villeServices.extractVille(id);
+        return result;
+    }
+
+    @GetMapping(path="/nom/{nom}")
+    public Ville getVille(@PathVariable String nom) {
+        Ville result = villeServices.extractVille(nom);
         return result;
     }
 
     @PostMapping
-    public ResponseEntity <String> ajouterVille(@Valid @RequestBody Ville ville, BindingResult result) throws Exception
-
+    public ResponseEntity <String> insertVille(@Valid @RequestBody Ville ville, BindingResult result)
+            throws Exception
     {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
         }
-        if (villeServices.ajoutVille(ville))  {
-           return ResponseEntity.ok("Ville insérée avec succès");
-       }
-       else {
-           return ResponseEntity.badRequest().body("Ville déjà existante");
-       }
-
+        villeServices.insertVille(ville);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<String> modifierVille(@RequestBody Ville ville) {
-        if (!villeServices.controlerVille(ville)) {
-            return ResponseEntity.badRequest().body("Format ville invalide");
+    public ResponseEntity<String> modifierVille(@Valid @RequestBody Ville ville, BindingResult result)
+        throws Exception{
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
         }
-        if (villeServices.modifierVille(ville))  {
-            return ResponseEntity.ok("Ville modifiée avec succès");
-        }
-        else {
-            return ResponseEntity.badRequest().body("Ville inconnue");
-        }
+        villeServices.modifierVille(ville.getId(), ville);
+        return ResponseEntity.ok().build();
     }
 
 
     @DeleteMapping
-    public ResponseEntity<String> supprimerVille(@RequestBody Ville ville) {
-        if (villeServices.supprimerVille(ville))  {
-            return ResponseEntity.ok("Ville supprimée avec succès");
+    public ResponseEntity<String> supprimerVille(@Valid @RequestBody int id, BindingResult result) {
+        villeServices.supprimerVille(id);
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
         }
-        else {
-            return ResponseEntity.badRequest().body("Ville inconnue");
-        }
+
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -1,29 +1,67 @@
 package fr.diginamic.coursSpringBoot.bo;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.stereotype.Component;
 
-
+@Entity
+@Table (schema = "ville")
 public class Ville {
 
-    @NotNull
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+
     @NotNull
-    @Size(min = 2)
+    @Column (name= "NOM", nullable = false)
     private String nom;
+
+    @Column (name= "NB_HABITANT")
     @Min(1)
     private int nbHabitant;
-    private static int compteurId = 0;
+
+    @ManyToOne
+    @JoinColumn (name= "ID_DEPARTEMENT")
+    Departement departement;
 
     public Ville() {
     }
-
     public Ville(String nom, int nbHabitant) {
         this.nom = nom;
         this.nbHabitant = nbHabitant;
-        this.id = compteurId++;
+    }
+
+
+
+//    public void addDepartement (Departement departement) {
+//        if (this.departement != null) {
+//            this.departement.getVilles().remove(this);
+//        }
+//
+//        this.departement = departement;
+//        if (this.departement != null) {
+//            this.departement.getVilles().add(this);
+//        }
+//    }
+     /**
+     * Getter
+     *
+     * @return departement
+     **/
+    public Departement getDepartement() {
+        return departement;
+    }
+
+    /**
+     * Setter
+     *
+     * @param : departement
+     **/
+    public void setDepartement(Departement departement) {
+        this.departement = departement;
     }
 
     /**
