@@ -14,38 +14,26 @@ public class Ville {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "ID_REGION")
+    private int id_region;
 
     @NotNull
     @Column (name= "NOM", nullable = false)
     private String nom;
 
+    @ManyToOne
+    @JoinColumn (name= "DEPARTEMENT_ID")
+    Departement departement;
+
     @Column (name= "NB_HABITANT")
     @Min(1)
-    private int nbHabitant;
+    private long nbHabitant;
 
-    @ManyToOne
-    @JoinColumn (name= "ID_DEPARTEMENT")
-    Departement departement;
+
 
     public Ville() {
     }
-    public Ville(String nom, int nbHabitant) {
-        this.nom = nom;
-        this.nbHabitant = nbHabitant;
-    }
 
-
-
-//    public void addDepartement (Departement departement) {
-//        if (this.departement != null) {
-//            this.departement.getVilles().remove(this);
-//        }
-//
-//        this.departement = departement;
-//        if (this.departement != null) {
-//            this.departement.getVilles().add(this);
-//        }
-//    }
      /**
      * Getter
      *
@@ -104,7 +92,7 @@ public class Ville {
      *
      * @return nbHabitant
      **/
-    public int getNbHabitant() {
+    public long getNbHabitant() {
         return nbHabitant;
     }
 

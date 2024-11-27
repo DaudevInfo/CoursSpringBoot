@@ -1,13 +1,10 @@
 package fr.diginamic.coursSpringBoot.service;
 
 import fr.diginamic.coursSpringBoot.bo.Departement;
-import fr.diginamic.coursSpringBoot.bo.Ville;
 import fr.diginamic.coursSpringBoot.dao.DepartementDao;
-import fr.diginamic.coursSpringBoot.dao.VilleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

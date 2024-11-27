@@ -40,7 +40,4 @@ public class DepartementDao {
     public void supprimerDepartement(Departement departement) {
         em.remove(departement);
     }
-
-
-
 }

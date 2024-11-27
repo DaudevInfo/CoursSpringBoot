@@ -23,13 +23,12 @@ public class VilleControleur {
 
     @GetMapping("/liste")
     public List<Ville> afficherVilles() {
-
         return villeServices.extractVilles();
     }
 
     @GetMapping(path="/id/{id}")
     public Ville getVille(@PathVariable int id) {
-        Ville result = villeServices.extractVille(id);
+        Ville result = villeServices.extractVilleID(id);
         return result;
     }
 
@@ -38,6 +37,36 @@ public class VilleControleur {
         Ville result = villeServices.extractVille(nom);
         return result;
     }
+
+    @GetMapping(path="/debute/{nom}")
+    public List<Ville> listeVilleCommencePar(@PathVariable String nom) {
+        return villeServices.listeVilleCommencePar(nom);
+    }
+
+    @GetMapping(path="/PopMin/{nbrMin}")
+    public List<Ville> listeVillePopulationSuperieurA(@PathVariable int nbrMin) {
+        return villeServices.listeVillePopulationSuperieurA(nbrMin);
+    }
+
+    @GetMapping(path="/PopMin/{nbrMin}/PopMax/{nbrMax}")
+    public List<Ville> listeVillePopulationEntre(@PathVariable int nbrMin, int nbrMax) {
+        return villeServices.listeVillePopulationEntre(nbrMin,nbrMax);
+    }
+
+    @GetMapping(path="/Dpt/{dpt}/PopMin/{nbrMin}")
+    public List<Ville> listeVillePopulationSuperieurPourUnDepartement(@PathVariable String dpt, int nbrMin) {
+        return villeServices.listeVillePopulationSuperieurPourUnDepartement(nbrMin,dpt);
+    }
+
+    @GetMapping(path="/Dpt/{dpt}/PopMin/{nbrMin}/PopMax/{nbrMax}")
+    public List<Ville> listeVillePopulationEntrePourUnDepartement(@PathVariable String dpt, int nbrMin,int nbrMax) {
+        return villeServices.listeVillePopulationEntrePourUnDepartement(nbrMin,nbrMax,dpt);
+    }
+
+    //@GetMapping(path="/Dpt/{dpt}/NbVille/{nbr}")
+//    public List<Ville> listeNVillePlusPeuplePourUnDepartement(@PathVariable String dpt, int nbr) {
+//        return villeServices.listeNVillePlusPeuplePourUnDepartement(nbr,dpt);
+//    }
 
     @PostMapping
     public ResponseEntity <String> insertVille(@Valid @RequestBody Ville ville, BindingResult result)
@@ -50,15 +79,15 @@ public class VilleControleur {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<String> modifierVille(@Valid @RequestBody Ville ville, BindingResult result)
-        throws Exception{
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
-        }
-        villeServices.modifierVille(ville.getId(), ville);
-        return ResponseEntity.ok().build();
-    }
+//    @PutMapping
+//    public ResponseEntity<String> modifierVille(@Valid @RequestBody Ville ville, BindingResult result)
+//        throws Exception{
+//        if (result.hasErrors()) {
+//            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
+//        }
+//        villeServices.modifierVille(ville.getNom(), ville);
+//        return ResponseEntity.ok().build();
+//    }
 
 
     @DeleteMapping
@@ -67,7 +96,6 @@ public class VilleControleur {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
         }
-
         return ResponseEntity.ok().build();
     }
 

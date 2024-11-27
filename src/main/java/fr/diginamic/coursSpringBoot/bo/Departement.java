@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
+@Table (schema = "departement")
 public class Departement {
 
 
@@ -15,6 +16,10 @@ public class Departement {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotNull
+    @Column (name= "CODE", nullable = false)
+    private String code;
 
     @NotNull
     @Column (name= "NOM", nullable = false)
@@ -31,9 +36,22 @@ public class Departement {
     public Departement() {
     }
 
-    public Departement(String nom, ArrayList<Ville> villes) {
-        this.nom = nom;
-        this.villes = villes;
+    /**
+     * Getter
+     *
+     * @return code
+     **/
+    public @NotNull String getCode() {
+        return code;
+    }
+
+    /**
+     * Setter
+     *
+     * @param : code
+     **/
+    public void setCode(@NotNull String code) {
+        this.code = code;
     }
 
     /**
