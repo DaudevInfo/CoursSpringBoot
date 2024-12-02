@@ -1,4 +1,4 @@
-package fr.diginamic.coursSpringBoot.hello.controlleurs;
+package fr.diginamic.coursSpringBoot.RestController;
 
 import fr.diginamic.coursSpringBoot.service.HelloServices;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,19 +1,18 @@
-package fr.diginamic.coursSpringBoot.dao;
+package fr.diginamic.coursSpringBoot.repository;
 
+import fr.diginamic.coursSpringBoot.bo.Departement;
 import fr.diginamic.coursSpringBoot.bo.Ville;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
 
 import java.util.List;
-
-@Repository
-public interface VilleRepository extends JpaRepository<Ville, Integer> {
-    public Ville findByNom(String nom);
+import java.util.Optional;
 
 
-    //public void updateVilleByNom(Ville ville,String nom);
+public interface VilleRepository extends JpaRepository<Ville, Long> {
+
+    public Optional<Ville> findByNom(String nom);
+
+    public List<Ville> findByDepartement(Departement departement);
 
     public List<Ville> findByNomStartingWith(String nom);
 
@@ -25,7 +24,6 @@ public interface VilleRepository extends JpaRepository<Ville, Integer> {
 
     public List<Ville> findByNbHabitantIsBetweenAndDepartement_Nom(int nbHabitantMinimum, int nbHabitantMaximum, String nom);
 
-    //@Query("SELECT Ville FROM Ville WHERE Departement.nom = :nomDepartement ORDER BY nbHabitant DESC LIMIT :nomnbreVille")
-    //public List<Ville> listeNVillePlusPeuplePourUnDepartement(int nomnbreVille, String nomDepartement);
+   // public List<Ville> findByDepartmentCodeOrderByNbInhabitantsDesc(String departementCode, Pageable pageable) ;
 
 }

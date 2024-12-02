@@ -1,44 +1,39 @@
 package fr.diginamic.coursSpringBoot.bo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Table (schema = "departement")
+
 public class Departement {
 
-
-    @Id
-    @Column(name = "ID")
+    @Id//@Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @NotNull
-    @Column (name= "CODE", nullable = false)
     private String code;
-
-    @NotNull
-    @Column (name= "NOM", nullable = false)
     private String nom;
 
-
     @OneToMany(mappedBy = "departement")
-    private ArrayList<Ville> villes;
+    @JsonIgnore
+    private List<Ville> villes =  new ArrayList<>();
 
-    {
-        villes = new ArrayList<>();
-    }
 
     public Departement() {
     }
 
+    public Departement(int id, String code, String nom) {
+        this.id = id;
+        this.code = code;
+        this.nom = nom;
+    }
+
     /**
      * Getter
-     *
      * @return code
      **/
     public @NotNull String getCode() {
@@ -47,7 +42,6 @@ public class Departement {
 
     /**
      * Setter
-     *
      * @param : code
      **/
     public void setCode(@NotNull String code) {
@@ -56,7 +50,6 @@ public class Departement {
 
     /**
      * Getter
-     *
      * @return id
      **/
     public int getId() {
@@ -66,7 +59,6 @@ public class Departement {
 
     /**
      * Getter
-     *
      * @return nom
      **/
     public @NotNull @Size(min = 2) String getNom() {
@@ -75,7 +67,6 @@ public class Departement {
 
     /**
      * Setter
-     *
      * @param : nom
      **/
     public void setNom(@NotNull @Size(min = 2) String nom) {
@@ -84,19 +75,17 @@ public class Departement {
 
     /**
      * Getter
-     *
      * @return villes
      **/
-    public ArrayList<Ville> getVilles() {
+    public List<Ville> getVilles() {
         return villes;
     }
 
     /**
      * Setter
-     *
      * @param : villes
      **/
-    public void setVilles(ArrayList<Ville> villes) {
+    public void setVilles(List<Ville> villes) {
         this.villes = villes;
     }
 }

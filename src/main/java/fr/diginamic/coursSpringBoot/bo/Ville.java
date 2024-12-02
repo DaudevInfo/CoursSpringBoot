@@ -1,32 +1,22 @@
 package fr.diginamic.coursSpringBoot.bo;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
-@Table (schema = "ville")
+
 public class Ville {
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "ID_REGION")
-    private int id_region;
+    private Long id;
 
     @NotNull
-    @Column (name= "NOM", nullable = false)
     private String nom;
 
     @ManyToOne
-    @JoinColumn (name= "DEPARTEMENT_ID")
     Departement departement;
 
-    @Column (name= "NB_HABITANT")
-    @Min(1)
     private long nbHabitant;
 
 
@@ -34,9 +24,15 @@ public class Ville {
     public Ville() {
     }
 
-     /**
+    public Ville(Long id, String nom, Departement departement, long nbHabitant) {
+        this.id = id;
+        this.nom = nom;
+        this.departement = departement;
+        this.nbHabitant = nbHabitant;
+    }
+
+    /**
      * Getter
-     *
      * @return departement
      **/
     public Departement getDepartement() {
@@ -45,7 +41,6 @@ public class Ville {
 
     /**
      * Setter
-     *
      * @param : departement
      **/
     public void setDepartement(Departement departement) {
@@ -56,22 +51,20 @@ public class Ville {
      * Getter
      * @return id
      **/
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     /**
      * Setter
-     *
      * @param : id
      **/
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
     /**
      * Getter
-     *
      * @return nom
      **/
     public String getNom() {
@@ -80,7 +73,6 @@ public class Ville {
 
     /**
      * Setter
-     *
      * @param : nom
      **/
     public void setNom(String nom) {
@@ -89,7 +81,6 @@ public class Ville {
 
     /**
      * Getter
-     *
      * @return nbHabitant
      **/
     public long getNbHabitant() {
@@ -98,10 +89,20 @@ public class Ville {
 
     /**
      * Setter
-     *
      * @param : nbHabitant
      **/
-    public void setNbHabitant(int nbHabitant) {
+    public void setNbHabitant(Long nbHabitant) {
         this.nbHabitant = nbHabitant;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Ville{");
+        sb.append("id=").append(id);
+        sb.append(", nom='").append(nom).append('\'');
+        sb.append(", departement=").append(departement);
+        sb.append(", nbHabitant=").append(nbHabitant);
+        sb.append('}');
+        return sb.toString();
     }
 }
