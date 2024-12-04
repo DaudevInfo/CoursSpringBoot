@@ -40,54 +40,47 @@ public class VilleAPIControleur {
 
     private VilleMapper villeMapper = new VilleMapper();
 
-    @GetMapping("")
-    public Iterable<VilleDto> afficherVilles() {
+    @GetMapping("/API")
+    public Iterable<VilleDto> APIafficherVilles() {
         return villeMapper.toDtos(villeServices.extractVilles());
     }
 
-    @GetMapping(path = "API/id/{id}")
-    public VilleDto afficherVille(@PathVariable Long id) {
+    @GetMapping(path = "/API/id/{id}")
+    public VilleDto APIafficherVille(@PathVariable Long id) {
         return villeMapper.toDto(villeServices.extractVille(id));
     }
 
-    @GetMapping(path = "API/nom/{nom}")
-    public VilleDto afficherVille(@PathVariable String nom) {
-        return villeMapper.toDto(villeServices.extractVille(nom));
+    @GetMapping(path = "/API/nom/{nom}")
+    public VilleDto APIafficherVille(@PathVariable String nom) {
+        Ville ville = villeServices.extractVille(nom);
+        return villeMapper.toDto(ville);
     }
 
-    @GetMapping(path = "API/debute/{nom}")
-    public List<VilleDto> listeVilleCommencePar(@PathVariable String nom) {
+    @GetMapping(path = "/API/debute/{nom}")
+    public List<VilleDto> APIlisteVilleCommencePar(@PathVariable String nom) {
         return villeMapper.toDtos(villeServices.listeVilleCommencePar(nom));
     }
 
-    @GetMapping(path = "API/popmin/{nbrMin}")
-    public List<VilleDto> listeVillePopulationSuperieurA(@PathVariable int nbrMin) {
+    @GetMapping(path = "/API/popmin/{nbrMin}")
+    public List<VilleDto> APIlisteVillePopulationSuperieurA(@PathVariable int nbrMin) {
         return villeMapper.toDtos(villeServices.listeVillePopulationSuperieurA(nbrMin));
     }
 
-    @GetMapping(path = "API/popmin/{nbrMin}/popmax/{nbrMax}")
-    public List<VilleDto> listeVillePopulationEntre(@PathVariable int nbrMin, int nbrMax) {
+    @GetMapping(path = "/API/popmin/{nbrMin}/popmax/{nbrMax}")
+    public List<VilleDto> APIlisteVillePopulationEntre(@PathVariable int nbrMin, int nbrMax) {
         return villeMapper.toDtos(villeServices.listeVillePopulationEntre(nbrMin, nbrMax));
     }
 
-    @GetMapping(path = "API/dpt/{dpt}/popmin/{nbrMin}")
-    public List<VilleDto> listeVillePopulationSuperieurPourUnDepartement(@PathVariable String dpt, int nbrMin) {
+    @GetMapping(path = "/API/dpt/{dpt}/popmin/{nbrMin}")
+    public List<VilleDto> APIlisteVillePopulationSuperieurPourUnDepartement(@PathVariable String dpt, int nbrMin) {
         return villeMapper.toDtos(villeServices.listeVillePopulationSuperieurPourUnDepartement(nbrMin, dpt));
     }
 
-    @GetMapping(path = "API/dpt/{dpt}/popmin/{nbrMin}/popmax/{nbrMax}")
-    public List<VilleDto> listeVillePopulationEntrePourUnDepartement(@PathVariable String dpt, int nbrMin, int nbrMax) {
+    @GetMapping(path = "/API/dpt/{dpt}/popmin/{nbrMin}/popmax/{nbrMax}")
+    public List<VilleDto> APIlisteVillePopulationEntrePourUnDepartement(@PathVariable String dpt, int nbrMin, int nbrMax) {
         return villeMapper.toDtos(villeServices.listeVillePopulationEntrePourUnDepartement(nbrMin, nbrMax, dpt));
     }
 
-//    @GetMapping(path = "API/Dpt/{dpt}/NbVille/{nbr}")
-//    public List<VilleDto> listeNVillePlusPeuplePourUnDepartement(@PathVariable String dpt, int nbr) {
-//        return villeMapper.toDtos(villeServices.listeNVillePlusPeuplePourUnDepartement(nbr, dpt));
-//    }
-
-
-
-    //FIXME Revoir mise en eouvre de la gestion ded'erreur
     @Operation(summary = "Création d'une nouvelle ville")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -97,7 +90,7 @@ public class VilleAPIControleur {
             @ApiResponse(responseCode = "400", description = "Si une règle métier n'est pas respectée.",
                     content = @Content)})
     @PostMapping
-    public ResponseEntity<String> insertVille(@RequestBody VilleDto villeDto) {
+    public ResponseEntity<String> APIinsertVille(@RequestBody VilleDto villeDto) {
         Ville ville = villeMapper.fromDto(villeDto);
         Departement departement = departementServices.getDepartement(villeDto.getDepartementCode());
         if (departement == null) {
@@ -111,12 +104,12 @@ public class VilleAPIControleur {
         }
     }
 
-    //FIXME revoir la mise en oeuvre de DTO
+
     @PutMapping
-    public ResponseEntity<String> modifierVille(@Valid @RequestBody Ville ville, BindingResult result)
+    public ResponseEntity<String> APImodifierVille(@Valid @RequestBody Ville ville, BindingResult result)
             throws Exception {
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
+            return ResponseEntity.badRequest().body(result.getAllErrors().getFirst().getDefaultMessage());
 
         }
         villeServices.modifierVille(ville);
@@ -125,16 +118,16 @@ public class VilleAPIControleur {
 
 
     @DeleteMapping
-    public ResponseEntity<String> supprimerVille(@Valid @RequestBody Long id, BindingResult result) {
+    public ResponseEntity<String> APIsupprimerVille(@Valid @RequestBody Long id, BindingResult result) {
         villeServices.supprimerVille(id);
         if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(result.getAllErrors().get(0).getDefaultMessage());
+            return ResponseEntity.badRequest().body(result.getAllErrors().getFirst().getDefaultMessage());
         }
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/listeVillePopulationSuperieurA/{min}/csv")
-    public void listeVillePopulationSuperieurACsv(@PathVariable("min") Integer min,
+    @GetMapping("/API/listeVillePopulationSuperieurA/{min}/csv")
+    public void APIlisteVillePopulationSuperieurACsv(@PathVariable Integer min,
                                                     HttpServletResponse response) throws IOException, DocumentException {
         response.setHeader("Content-Disposition", "attachment; filename=ville.csv");
 

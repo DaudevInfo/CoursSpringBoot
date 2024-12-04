@@ -7,6 +7,8 @@ import fr.diginamic.coursSpringBoot.repository.VilleRepository;
 import fr.diginamic.coursSpringBoot.exception.InvalidVilleException;
 import fr.diginamic.coursSpringBoot.exception.VilleNonTrouvee;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,6 @@ public class VilleServices {
 
 
     public List<Ville> extractVilles() {
-        // FIXME : Mettre en place la pagination
         return villeRepository.findAll();
     }
 
@@ -114,23 +115,18 @@ public class VilleServices {
     }
 
     public List<Ville> listeVillePopulationEntre(int populationMini, int populationMaxi) {
-        villeRepository.findByNbHabitantIsBetween(populationMini, populationMaxi);
-        return extractVilles();
+       return  villeRepository.findByNbHabitantIsBetween(populationMini, populationMaxi);
     }
 
     public List<Ville> listeVillePopulationSuperieurPourUnDepartement(int populationMini, String nom) {
-        villeRepository.findByNbHabitantIsGreaterThanAndDepartement_Nom(populationMini, nom);
-        return extractVilles();
+        return villeRepository.findByNbHabitantIsGreaterThanAndDepartement_Nom(populationMini, nom);
     }
 
     public List<Ville> listeVillePopulationEntrePourUnDepartement(int populationMini, int populationMax, String nom) {
-        villeRepository.findByNbHabitantIsBetweenAndDepartement_Nom(populationMini, populationMax, nom);
-        return extractVilles();
+        return villeRepository.findByNbHabitantIsBetweenAndDepartement_Nom(populationMini, populationMax, nom);
     }
 
-//    public List<Ville> listeNVillePlusPeuplePourUnDepartement(int nomnbreVille, String codeDepartement) {
-//        villeRepository.findByDepartmentCodeOrderByNbInhabitantsDesc(codeDepartement, Pageable.ofSize(nomnbreVille));
-//        return extractVilles();
-//    }
-
+    public List<Ville> listeNVillePlusPeuplePourUnDepartement(int nomnbreVille, String codeDepartement) {
+        return villeRepository.findByDepartementCodeOrderByNbHabitantDesc(codeDepartement, Pageable.ofSize(nomnbreVille));
+    }
 }

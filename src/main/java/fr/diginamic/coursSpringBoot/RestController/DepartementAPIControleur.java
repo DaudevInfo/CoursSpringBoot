@@ -59,7 +59,7 @@ public class DepartementAPIControleur {
         }
     }
 
-    
+
     @PutMapping
     @Transactional
     public ResponseEntity<String> modifierDepartement(@Valid @RequestBody Departement departement, BindingResult result)
@@ -85,24 +85,24 @@ public class DepartementAPIControleur {
 
     @GetMapping("/infoDepartement/{code}")
     public void infoDepartement(@PathVariable("code") String code,
-                                                  HttpServletResponse response) throws IOException, DocumentException {
+                                HttpServletResponse response) throws IOException, DocumentException {
         response.setHeader("Content-Disposition", "attachment; filename=infodpt.pdf");
         Document document = new Document(PageSize.A4);
-        PdfWriter.getInstance(document,response.getOutputStream());
+        PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
         document.addTitle("Information détaillée sur un département");
         document.newPage();
-        BaseFont baseFont = BaseFont.createFont(BaseFont.HELVETICA,BaseFont.WINANSI, BaseFont.EMBEDDED);
-        Departement departement=  departementServices.getDepartement(code);
+        BaseFont baseFont = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.WINANSI, BaseFont.EMBEDDED);
+        Departement departement = departementServices.getDepartement(code);
         String codeRegion = departementServices.getRegion(code);
-        DepartementDto departementDto=  departementMapper.toDto(departement);
-        List <VilleDto> villeDtos = villeMapper.toDtos(villeServices.extractVilles(departement));
+        DepartementDto departementDto = departementMapper.toDto(departement);
+        List<VilleDto> villeDtos = villeMapper.toDtos(villeServices.extractVilles(departement));
         Font font = new Font(baseFont, 32.0f, 1, new BaseColor(0, 51, 80));
-        document.add(new Phrase("Information sur le département"+"\n\n" , font));
-        document.add(new Phrase("Code du département : "+ departementDto.getDepartementCode() + " Nom du département : "+ departementDto.getDepartementNom()+"\n"));
-        document.add(new Phrase("Nombre d'habitant : "+ departementDto.getNbHabitants() + " Code région : "+ codeRegion+"\n\n\n"));
-        for (VilleDto t :villeDtos) {
-            Phrase phrase = new Phrase("Ville de "+ t.getNom() + " : " + t.getNbHabitant() + " habitants \n");
+        document.add(new Phrase("Information sur le département" + "\n\n", font));
+        document.add(new Phrase("Code du département : " + departementDto.getDepartementCode() + " Nom du département : " + departementDto.getDepartementNom() + "\n"));
+        document.add(new Phrase("Nombre d'habitant : " + departementDto.getNbHabitants() + " Code région : " + codeRegion + "\n\n\n"));
+        for (VilleDto t : villeDtos) {
+            Phrase phrase = new Phrase("Ville de " + t.getNom() + " : " + t.getNbHabitant() + " habitants \n");
             document.add(phrase);
         }
         document.close();

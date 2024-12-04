@@ -2,6 +2,7 @@ package fr.diginamic.coursSpringBoot.repository;
 
 import fr.diginamic.coursSpringBoot.bo.Departement;
 import fr.diginamic.coursSpringBoot.bo.Ville;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -24,6 +25,6 @@ public interface VilleRepository extends JpaRepository<Ville, Long> {
 
     public List<Ville> findByNbHabitantIsBetweenAndDepartement_Nom(int nbHabitantMinimum, int nbHabitantMaximum, String nom);
 
-   // public List<Ville> findByDepartmentCodeOrderByNbInhabitantsDesc(String departementCode, Pageable pageable) ;
+    public List<Ville> findByDepartementCodeOrderByNbHabitantDesc(String departementCode, Pageable pageable) ;
 
 }

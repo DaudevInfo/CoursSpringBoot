@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Liste des villes</title>
+</head>
+<body>
+<table>
+
+
+    <tr>
+        <th>Nom de la ville</th>
+        <th>Nbr Habitant</th>
+        <th>Code Departement</th>
+        <th>Nom Département</th>
+        <th style="color:#FF0000">- DELETE-</th>
+    </tr>
+    </thead>
+    <tr th:each="villeDto : ${villesDto}">
+        <td th:text = ${villeDto.nom}></td>
+        <td th:text = ${villeDto.nbHabitant}></td>
+        <td th:text = ${villeDto.DepartementCode}></td>
+        <td th:text = ${villeDto.DepartementNom}></td>
+        <td><a th:href = "@{'villes/supprimerVille/'+ ${villeDto.id}}"> Supprimer</a></td>
+    </tr>
+
+</table>
+
+</body>
+</html>
