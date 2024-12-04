@@ -1,6 +1,6 @@
 # CoursSpringBoot
+A partir du TP 8 mise en oeuvre partielle des exercices dans le code
 
-A partir du TP 8 mise en oeuvre partiel des exercices dans le code
 
 # TP 8 DTO
 Mise en oeuvre de classes dans package DTO, Mapper et prise en compte dans les REST controleur
