@@ -1,4 +1,4 @@
-package fr.diginamic.coursSpringBoot;
+package fr.diginamic.coursSpringBoot.config;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -8,3 +8,5 @@ public class Config {
         System.out.println("Config initialized");
     }
 }
+
+

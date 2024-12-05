@@ -90,7 +90,7 @@ public class VilleServices {
     @Transactional
     public Boolean supprimerVille(Long id) {
         Optional<Ville> villeOpt = villeRepository.findById(id);
-        if (villeOpt.isEmpty()) {
+        if (!villeOpt.isEmpty()) {
             villeRepository.delete(villeOpt.get());
             return true;
         }
