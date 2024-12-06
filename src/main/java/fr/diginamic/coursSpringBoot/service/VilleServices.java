@@ -3,12 +3,12 @@ package fr.diginamic.coursSpringBoot.service;
 
 import fr.diginamic.coursSpringBoot.bo.Departement;
 import fr.diginamic.coursSpringBoot.bo.Ville;
-import fr.diginamic.coursSpringBoot.repository.VilleRepository;
 import fr.diginamic.coursSpringBoot.exception.InvalidVilleException;
 import fr.diginamic.coursSpringBoot.exception.VilleNonTrouvee;
+import fr.diginamic.coursSpringBoot.repository.VilleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +87,7 @@ public class VilleServices {
     }
 
 
-    @Transactional
+
     public Boolean supprimerVille(Long id) {
         Optional<Ville> villeOpt = villeRepository.findById(id);
         if (!villeOpt.isEmpty()) {

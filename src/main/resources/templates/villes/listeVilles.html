@@ -3,6 +3,11 @@
 <head>
     <meta charset="utf-8">
     <title>Liste des villes</title>
+    <h2>
+        <td th:text="'Username : ' +${authentication.name}">user</td>
+        <td th:text="'Rôle : ' +${authentication.authorities}">role</td>
+    </h2>
+
 </head>
 <body>
 <table>
